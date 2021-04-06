@@ -12,7 +12,7 @@ BOOTSTRAP_SERVERS = ['sykang-kafka.default.svc.cluster.local:9092']
 
 
 class DeliveryManager():
-    producer = KafkaProducer(acks=0, compression_type='gzip', bootstrap_servers='sykang-kafka-0.sykang-kafka-headless.default.svc.cluster.local:9092', value_serializer=lambda v: json.dumps(v, sort_keys=True).encode('utf-8'))  
+    producer = KafkaProducer(acks=0, compression_type='gzip',security_protocol="SSL" ,bootstrap_servers=BOOTSTRAP_SERVERS, value_serializer=lambda v: json.dumps(v, sort_keys=True).encode('utf-8')) 
     ret_fin = 0
     ret_message = ''
 
@@ -20,7 +20,7 @@ class DeliveryManager():
         # Poll kafka
         def poll():
             # Initialize consumer Instance
-            consumer = KafkaConsumer(topic, bootstrap_servers=BOOTSTRAP_SERVERS, auto_offset_reset='earliest', enable_auto_commit=True, 
+            consumer = KafkaConsumer(topic,security_protocol="SSL" , bootstrap_servers=BOOTSTRAP_SERVERS, auto_offset_reset='earliest', enable_auto_commit=True, 
                                         group_id='my-mc' )
 
             print("About to start polling for topic:", topic)
