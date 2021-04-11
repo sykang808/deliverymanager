@@ -8,7 +8,7 @@ import json
 import random
 
 from requests import status_codes
-BOOTSTRAP_SERVERS = ['sykang-kafka.default.svc.cluster.local:9092']
+BOOTSTRAP_SERVERS = ['b-2.microservice-kafka-2.6lxf1h.c6.kafka.us-west-2.amazonaws.com:9094','b-1.microservice-kafka-2.6lxf1h.c6.kafka.us-west-2.amazonaws.com:9094']
 
 
 class DeliveryManager():
