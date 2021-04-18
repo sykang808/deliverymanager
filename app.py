@@ -46,7 +46,7 @@ class DeliveryManager():
 
     def sendkafka(self, topic,data, status):
         data['status'] = status
-        self.producer.send( topic, value=data).add_callback(self.on_send_success).add_errback(self.on_send_error) 
+        self.producer.send( topic, value=data).get()#.add_callback(self.on_send_success).add_errback(self.on_send_error) 
         self.producer.flush() 
 
 
