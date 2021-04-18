@@ -40,14 +40,13 @@ class DeliveryManager():
 
     def on_send_error(self, excp):
         print("error : %s" % excp)
-        self.producer.flush() 
         self.ret_fin = 400
         self.ret_message = "failkafkacheckuser"
 
     def sendkafka(self, topic,data, status):
         data['status'] = status
         self.producer.send( topic, value=data).get()#.add_callback(self.on_send_success).add_errback(self.on_send_error) 
-        self.producer.flush() 
+
 
 
     def kafka_listener(self, data):
@@ -63,7 +62,5 @@ class DeliveryManager():
 
          
 if __name__ == '__main__':
-#    OrderManager.register_kafka_listener('orderkafka')
-#   app.run(host="0.0.0.0", port=5052,debug=True)
     deleverymanager = DeliveryManager()
     deleverymanager.register_kafka_listener('deliverykafka')
