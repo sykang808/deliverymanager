@@ -1,20 +1,17 @@
 from kafka import KafkaConsumer 
 from kafka import KafkaProducer 
-from json import loads 
-from json import dumps 
-import requests
 import threading
 import json
 import random
-
-from requests import status_codes
 import boto3
+from botocore.config import Config
 
-
- 
+my_config = Config(
+    region_name='us-west-2',
+)
 #t = get_secret()
 #print(DATABASE_CONFIG)
-cloudformation_client = boto3.client('cloudformation')
+cloudformation_client = boto3.client('cloudformation', config=my_config)
 response = cloudformation_client.describe_stacks(
     StackName='MicroserviceCDKVPC'
 )
@@ -26,16 +23,15 @@ for output in outputs:
         ParameterKey = output["OutputValue"]
 
 print( ParameterKey )
-ssm_client = boto3.client('ssm')
+ssm_client = boto3.client('ssm', config=my_config)
 response = ssm_client.get_parameter(
     Name=ParameterKey
 )
-
 BOOTSTRAP_SERVERS = response['Parameter']['Value'].split(',')
-print(BOOTSTRAP_SERVERS)
+
 
 class DeliveryManager():
-    producer = KafkaProducer(acks=0, compression_type='gzip',security_protocol="SSL" ,bootstrap_servers=BOOTSTRAP_SERVERS, value_serializer=lambda v: json.dumps(v, sort_keys=True).encode('utf-8')) 
+    producer = KafkaProducer(bootstrap_servers=BOOTSTRAP_SERVERS, security_protocol="SSL")    
     ret_fin = 0
     ret_message = ''
 
@@ -85,5 +81,13 @@ class DeliveryManager():
 
          
 if __name__ == '__main__':
-    deleverymanager = DeliveryManager()
-    deleverymanager.register_kafka_listener('deliverykafka')
+    print(BOOTSTRAP_SERVERS)
+    deleverymanager1 = DeliveryManager()
+    deleverymanager2 = DeliveryManager()
+    deleverymanager3 = DeliveryManager()
+    deleverymanager4 = DeliveryManager()
+
+    deleverymanager1.register_kafka_listener('deliverykafka')
+    deleverymanager2.register_kafka_listener('deliverykafka')
+    deleverymanager3.register_kafka_listener('deliverykafka')
+    deleverymanager4.register_kafka_listener('deliverykafka')
