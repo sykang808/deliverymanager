@@ -5,6 +5,7 @@ import json
 import random
 import boto3
 from botocore.config import Config
+from json import dumps
 
 my_config = Config(
     region_name='us-west-2',
@@ -31,7 +32,7 @@ BOOTSTRAP_SERVERS = response['Parameter']['Value'].split(',')
 
 
 class DeliveryManager():
-    producer = KafkaProducer(bootstrap_servers=BOOTSTRAP_SERVERS, security_protocol="SSL")    
+    producer = KafkaProducer(bootstrap_servers=BOOTSTRAP_SERVERS, security_protocol="SSL", value_serializer=lambda x: dumps(x).encode('utf-8'))    
     ret_fin = 0
     ret_message = ''
 
