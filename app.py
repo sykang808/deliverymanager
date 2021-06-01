@@ -1,21 +1,11 @@
 from kafka import KafkaConsumer 
 from kafka import KafkaProducer 
-from flask import Flask
-import flask.scaffold
-flask.helpers._endpoint_from_view_func = flask.scaffold._endpoint_from_view_func
-from flask_restx import Api
-import requests
 import threading
 import json
+import random
 import boto3
 from botocore.config import Config
-from aws_xray_sdk.core import xray_recorder
-from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
-
-app = Flask(__name__)
-api = Api(app)
-xray_recorder.configure(service='deliverymanager')
-XRayMiddleware(app, xray_recorder)
+from json import dumps
 
 my_config = Config(
     region_name='us-west-2',
