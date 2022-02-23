@@ -84,11 +84,4 @@ class DeliveryManager():
 if __name__ == '__main__':
     print(BOOTSTRAP_SERVERS)
     deleverymanager1 = DeliveryManager()
-    deleverymanager2 = DeliveryManager()
-    deleverymanager3 = DeliveryManager()
-    deleverymanager4 = DeliveryManager()
-
     deleverymanager1.register_kafka_listener('deliverykafka')
-    deleverymanager2.register_kafka_listener('deliverykafka')
-    deleverymanager3.register_kafka_listener('deliverykafka')
-    deleverymanager4.register_kafka_listener('deliverykafka')
